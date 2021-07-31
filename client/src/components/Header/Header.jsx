@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import icon from '../../assets/coffee.png'
 import {
   AppBar,
   Box,
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: "black",
     textDecoration: "none",
+
   },
   title: {
     flexGrow: 1,
@@ -70,7 +72,7 @@ function Header() {
               aria-label="menu"
               className={classes.menuButton}
             >
-              <MenuIcon />
+              <img src={icon} alt=""/>
             </IconButton>
             <Typography variant="h6" className={classes.title}>
               <NavLink className={classes.coffee} exact to="/">
@@ -99,14 +101,17 @@ function Header() {
                   <Typography className={classes.typography}>
                     {category.map((item) => {
                       return (
+                      <p>
                         <Button>
                           <NavLink
+                            style={{lineHeight: 1 }}
                             className={classes.link}
                             to={`/product/${item._id}/category`}
                           >
                             <p>{item.name}</p>
                           </NavLink>
                         </Button>
+                      </p>
                       );
                     })}
                   </Typography>

@@ -51,7 +51,7 @@ module.exports.productsController = {
     try {
       const products = await Product.find({ category: id }).populate(
         "category",
-        "name"
+        "name, _id"
       );
       return res.json(products);
     } catch (e) {
@@ -81,19 +81,42 @@ module.exports.productsController = {
     }
   },
 
-  createProduct: async (req, res) => {
-    try {
-      const product = await new Product({
-        name: req.body.name,
-        img: req.body.img,
-        price: req.body.price,
-        description: req.body.description,
-        category: req.params.id,
+  addProduct: async (req, res) => {
+    const { name, description, price, img, category } = req.body;
+    if (!name) {
+      return res.status(400).json({
+        error: "Укажите название продукта",
       });
-      await product.save();
-      res.json(product);
+    }
+    if (!description) {
+      return res.status(400).json({
+        error: "Укажите описание продутка",
+      });
+    }
+    if (!price || price < 0) {
+      return res.status(400).json({
+        error: "Укажите цену продукта",
+      });
+    }
+
+    try {
+      const createdProduct = await Product.create({
+        name,
+        description,
+        price,
+        category: req.params.id,
+        img,
+      });
+
+      const product = await Product.findById(createdProduct._id).populate(
+        "category"
+      );
+
+      return res.json(product);
     } catch (e) {
-      console.log(e.message);
+      return res.status(400).json({
+        error: e.toString(),
+      });
     }
   },
 
@@ -119,38 +142,46 @@ module.exports.productsController = {
       });
     }
 
-    try {
-      const categoryExists = await Category.findById(category);
+    // try {
+    //   const categoryExists = await Category.findById(category);
+    //
+    //   if (!categoryExists) {
+    //     return res.status(400).json({
+    //       error: `Категории с ID ${category} не существует`,
+    //     });
+    //   }
+    // } catch (e) {
+    //   return res.status(400).json({
+    //     error: e.toString(),
+    //   });
+    // }
+    //
+    // try {
+    //   const edited = await Product.findByIdAndUpdate(
+    //     id,
+    //     { name },
+    //     { new: true }
+    //   );
+    //
+    //   if (!edited) {
+    //     return res.status(400).json({
+    //       error: "Не удалось изменить название. Проверь правильность ID",
+    //     });
+    //   }
+    //
+    //   return res.json(edited);
+    // } catch (e) {
+    //   return res.status(400).json({
+    //     error: e.toString(),
+    //   });
+    // }
 
-      if (!categoryExists) {
-        return res.status(400).json({
-          error: `Категории с ID ${category} не существует`,
-        });
-      }
-    } catch (e) {
-      return res.status(400).json({
-        error: e.toString(),
-      });
-    }
-
-    try {
-      const edited = await Product.findByIdAndUpdate(
-        id,
-        { name },
-        { new: true }
-      );
-
-      if (!edited) {
-        return res.status(400).json({
-          error: "Не удалось изменить название. Проверь правильность ID",
-        });
-      }
-
-      return res.json(edited);
-    } catch (e) {
-      return res.status(400).json({
-        error: e.toString(),
-      });
-    }
+    const product = await Product.findByIdAndUpdate(id, {
+      $set: {
+        ...req.body,
+      },
+    });
+    product.save();
+    res.send(product);
   },
 };
