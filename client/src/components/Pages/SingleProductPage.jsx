@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProductByCategoryId,
-  fetchDeleteProduct, setEditProduct,
+  fetchDeleteProduct, setEditProduct, fetchEditProduct,
 } from "../../redux/features/products";
 import { makeStyles, Toolbar } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -138,7 +138,7 @@ function SingleProductPage() {
           </Table>
         </TableContainer>
         <PatchProduct
-        setOpen={open}
+        setOpen={setOpen}
         open={open}
         />
       </>

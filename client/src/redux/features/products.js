@@ -4,7 +4,7 @@ const initialState = {
   post: false,
   edit: false,
   items: [],
-  productEdit: {},
+  productEdit: {} ,
   error: null,
 };
 
@@ -90,6 +90,32 @@ const products = (state = initialState, action) => {
         ...state,
         productEdit: action.payload
       }
+
+    case 'set/patch/name':
+      return {
+        ...state,
+        productEdit: {
+          ...state.productEdit,
+          name: action.payload
+        }
+      }
+    case 'set/patch/description' :
+      return {
+        ...state,
+        productEdit: {
+          ...state.productEdit,
+          description: action.payload
+        }
+      }
+    case 'set/patch/price' :
+      return {
+        ...state,
+        productEdit: {
+          ...state.productEdit,
+          price: action.payload
+        }
+      }
+
     default:
       return state;
   }
@@ -104,19 +130,24 @@ export const setEditProduct = (products) =>{
   }
 }
 
-export const fetchEditProduct = (productId, data) => {
-  return async (dispatch) => {
+export const fetchEditProduct = () => {
+  return async (dispatch, getState) => {
+    const { products } = getState();
+
     try {
-      await fetch(`/category/${productId}/product`, {
+      await fetch(`/category/${products.productEdit._id}/product`, {
         method: "PATCH",
         headers: {
           "Content-type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          name: products.productEdit.name,
+          description: products.productEdit.description,
+          price: products.productEdit.price
+        }),
       });
       dispatch({
         type: "product/edit/fetch/fulfilled",
-        payload: { data, productId },
       });
     } catch (e) {
       dispatch({ type: "product/edit/fetch/rejected", error: e.message });

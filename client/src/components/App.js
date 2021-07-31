@@ -11,6 +11,7 @@ import SingleProductPage from './Pages/SingleProductPage';
 
 
 function App() {
+
   return (
     <>
       <Router>

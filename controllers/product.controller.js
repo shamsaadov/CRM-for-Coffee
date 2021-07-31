@@ -121,7 +121,7 @@ module.exports.productsController = {
   },
 
   editProduct: async (req, res) => {
-    const { name, price, category, description } = req.body;
+    const { name, price, description } = req.body;
     const { id } = req.params;
 
     if (!name) {

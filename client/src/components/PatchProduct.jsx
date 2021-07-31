@@ -8,30 +8,26 @@ import {
   TextField,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { fetchEditProduct } from "../redux/features/products";
+import products, { fetchEditProduct } from "../redux/features/products";
 
-function PatchProduct({ open, setOpen }) {
+function PatchProduct({ setOpen, open }) {
   const dispatch = useDispatch();
 
   const editProduct = useSelector((state) => state.products.productEdit);
 
-  const [name, setName] = useState(editProduct.name);
-  const [description, setDescription] = useState(editProduct.description);
-  const [price, setPrice] = useState(editProduct.price);
-
   const handleEditProductName = (e) => {
-    setName(e.target.value);
+    dispatch({ type: "set/patch/name", payload: e.target.value });
+    // setName(e.target.value)
   };
   const handleEditProductDesc = (e) => {
-    setDescription(e.target.value);
+    dispatch({ type: "set/patch/description", payload: e.target.value });
   };
   const handleEditProductPrice = (e) => {
-    setPrice(e.target.value);
+    dispatch({ type: "set/patch/price", payload: e.target.value });
   };
 
-  const handleClose = (id) => {
-    console.log(id);
-    dispatch(fetchEditProduct(id, { name, description, price }));
+  const handleClose = () => {
+    dispatch(fetchEditProduct());
     setOpen(false);
   };
 
@@ -47,30 +43,36 @@ function PatchProduct({ open, setOpen }) {
     >
       <DialogTitle id="form-dialog-title">Введите ваши изменения</DialogTitle>
       <DialogContent>
-        <TextField
-          value={name}
-          label="Введите название"
-          placeholder="Введите название"
-          type="text"
-          onChange={handleEditProductName}
-        />
-        <TextField
-          value={description}
-          label="Введите описание"
-          placeholder="Введите описание"
-          type="text"
-          onChange={handleEditProductDesc}
-        />
-        <TextField
-          value={price}
-          label="Введите цену"
-          placeholder="Введите цену"
-          type="text"
-          onChange={handleEditProductPrice}
-        />
+        <p>
+          <TextField
+            value={editProduct.name}
+            label="имя"
+            placeholder="имя"
+            type="text"
+            onChange={handleEditProductName}
+          />
+        </p>
+        <p>
+          <TextField
+            value={editProduct.description}
+            label="Введите описание"
+            placeholder="Введите описание"
+            type="text"
+            onChange={handleEditProductDesc}
+          />
+        </p>
+       <p>
+         <TextField
+           value={editProduct.price}
+           label="Введите цену"
+           placeholder="Введите цену"
+           type="text"
+           onChange={handleEditProductPrice}
+         />
+       </p>
       </DialogContent>
       <DialogActions>
-        <Button onClick={() => setOpen(false)} color="primary">
+        <Button onClick={handleClose} color="primary">
           Закрыть
         </Button>
         <Button onClick={() => handleClose(editProduct._id)} color="primary">
