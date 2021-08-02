@@ -4,7 +4,7 @@ const initialState = {
   post: false,
   edit: false,
   items: [],
-  productEdit: {} ,
+  productEdit: {},
   error: null,
 };
 
@@ -75,7 +75,7 @@ const products = (state = initialState, action) => {
         ...state,
         edit: false,
         items: state.items.map((item) => {
-          if (item._id === action.payload.data) {
+          if (item._id === action.payload.id) {
             return {
               ...item,
               ...action.payload.data,
@@ -85,36 +85,57 @@ const products = (state = initialState, action) => {
         }),
       };
 
-    case 'product/set/editing':
+    case "product/set/editing":
       return {
         ...state,
-        productEdit: action.payload
-      }
+        productEdit: action.payload,
+      };
 
-    case 'set/patch/name':
+    case "set/patch/name":
       return {
         ...state,
         productEdit: {
           ...state.productEdit,
-          name: action.payload
-        }
-      }
-    case 'set/patch/description' :
+          name: action.payload,
+        },
+      };
+    case "set/patch/description":
       return {
         ...state,
         productEdit: {
           ...state.productEdit,
-          description: action.payload
-        }
-      }
-    case 'set/patch/price' :
+          description: action.payload,
+        },
+      };
+    case "set/patch/price":
       return {
         ...state,
         productEdit: {
           ...state.productEdit,
-          price: action.payload
-        }
-      }
+          price: action.payload,
+        },
+      };
+
+    // case "img/create/pending":
+    //   return {
+    //     ...state,
+    //     loading: true,
+    //   };
+    // case "img/create/fulfilled":
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     items: {
+    //       ...state,
+    //       img: action.payload,
+    //     },
+    //   };
+    // case "img/create/rejected":
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     error: action.error,
+    //   };
 
     default:
       return state;
@@ -123,17 +144,35 @@ const products = (state = initialState, action) => {
 
 export default products;
 
-export const setEditProduct = (products) =>{
-  return{
-    type: 'product/set/editing',
-    payload: products
-  }
-}
+export const setEditProduct = (products) => {
+  return {
+    type: "product/set/editing",
+    payload: products,
+  };
+};
 
-export const fetchEditProduct = () => {
+// export const fetchUploadImg = (file) => {
+//   return async (dispatch, getState) => {
+//     const { state } = getState();
+//     try {
+//       const formData = new FormData();
+//       formData.append("file", file);
+//       const response = await fetch("/productImg", {
+//         method: "POST",
+//         body: formData,
+//       });
+//       const json = await response.json();
+//       dispatch({ type: "img/create/fulfilled", payload: json.image });
+//     } catch (e) {
+//       console.log(e.message);
+//     }
+//   };
+// };
+
+export const fetchEditProduct = (id, data) => {
   return async (dispatch, getState) => {
     const { products } = getState();
-
+    dispatch({ type: "product/edit/fetch/pending" });
     try {
       await fetch(`/category/${products.productEdit._id}/product`, {
         method: "PATCH",
@@ -143,11 +182,12 @@ export const fetchEditProduct = () => {
         body: JSON.stringify({
           name: products.productEdit.name,
           description: products.productEdit.description,
-          price: products.productEdit.price
+          price: products.productEdit.price,
         }),
       });
-      dispatch({
+      await dispatch({
         type: "product/edit/fetch/fulfilled",
+        payload: { id, data }, // если убрать приходится обновлять для изменения
       });
     } catch (e) {
       dispatch({ type: "product/edit/fetch/rejected", error: e.message });
@@ -156,7 +196,8 @@ export const fetchEditProduct = () => {
 };
 
 export const fetchAddProduct = (id, data) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const { state } =getState()
     dispatch({ type: "product/add/fetch/pending" });
 
     try {

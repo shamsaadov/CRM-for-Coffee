@@ -8,6 +8,7 @@ router.get('/products', productsController.getAllProducts)
 router.get("/product/:id", productsController.getProductById);
 router.get("/product/:id/category", productsController.getProductsByCategoryId);
 router.post("/category/:id/product", productsController.addProduct);
+//router.post('/productImg', productsController.addImg)
 router.patch("/category/:id/product", productsController.editProduct);
 router.delete("/category/:id/product", productsController.removeProduct);
 

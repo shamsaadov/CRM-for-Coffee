@@ -1,18 +1,21 @@
 const mongoose = require("mongoose");
 
 const CartSchema = new mongoose.Schema({
-  active: {
-    type: Boolean,
-    default: false,
+  name: {
+    type: String
   },
-  product: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Product",
-  },
-  method: {
-    enum: ["Delivery", "Hall", "Takeaway"],
-    required: true,
-  },
+  products: [
+    {
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+      amount: {
+        type: Number,
+        default: 1,
+      },
+    },
+  ],
 });
 
 const Cart = mongoose.model("Cart", CartSchema);

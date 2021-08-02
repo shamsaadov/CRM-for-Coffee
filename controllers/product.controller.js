@@ -1,5 +1,7 @@
 const Product = require("../models/Product.model");
 const Category = require("../models/Category.model");
+const path = require("path");
+
 module.exports.productsController = {
   getProducts: async (req, res) => {
     try {
@@ -82,7 +84,7 @@ module.exports.productsController = {
   },
 
   addProduct: async (req, res) => {
-    const { name, description, price, img, category } = req.body;
+    const { name, description, price, img } = req.body;
     if (!name) {
       return res.status(400).json({
         error: "Укажите название продукта",
@@ -119,6 +121,29 @@ module.exports.productsController = {
       });
     }
   },
+
+  // addImg: (req, res) => {
+  //   const { file } = req.files;
+  //   const url = path.resolve(__dirname, "../public/uploads/image/" + file.name);
+  //   const urlForDB = "/uploads/image/" + file.name;
+  //   try {
+  //    file.mv(url, async (err) => {
+  //       if (err) {
+  //         console.log(err);
+  //         res.json('яц пендинг')
+  //       } else {
+  //         res.json(urlForDB)
+  //       }
+  //       res.json({
+  //         img: urlForDB,
+  //         text: 'Картинка загружена!'
+  //       })
+  //     });
+  //   } catch (e) {
+  //     res.json('ю пендинг')
+  //     console.log(e.message);
+  //   }
+  // },
 
   editProduct: async (req, res) => {
     const { name, price, description } = req.body;
@@ -181,7 +206,6 @@ module.exports.productsController = {
         ...req.body,
       },
     });
-    product.save();
     res.send(product);
   },
 };

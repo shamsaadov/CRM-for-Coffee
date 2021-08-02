@@ -3,10 +3,9 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProductByCategoryId,
-  fetchDeleteProduct, setEditProduct, fetchEditProduct,
+  setEditProduct,
 } from "../../redux/features/products";
 import { makeStyles, Toolbar } from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
 import {
   Table,
   TableBody,
@@ -18,7 +17,7 @@ import {
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import AddProduct from "../AddProduct";
-import PatchProduct from '../PatchProduct';
+import PatchProduct from "../PatchProduct";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -48,26 +47,15 @@ function SingleProductPage() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.items);
   const loading = useSelector((state) => state.products.loading);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   useEffect(() => {
     dispatch(fetchProductByCategoryId(id));
   }, [dispatch, id]);
 
-  const handleClickOpen = (products) =>{
-    dispatch(setEditProduct(products))
-    setOpen(true)
-  }
-
-
-  if (loading) {
-    return (
-      <div className="text-center position-absolute top-50 start-50">
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Загрузка...</span>
-        </div>
-      </div>
-    );
-  } else {
+  const handleClickOpen = (products) => {
+    dispatch(setEditProduct(products));
+    setOpen(true);
+  };
     return (
       <>
         <AddProduct />
@@ -137,13 +125,9 @@ function SingleProductPage() {
             </TableBody>
           </Table>
         </TableContainer>
-        <PatchProduct
-        setOpen={setOpen}
-        open={open}
-        />
+        <PatchProduct setOpen={setOpen} open={open} />
       </>
     );
-  }
 }
 
 export default SingleProductPage;
