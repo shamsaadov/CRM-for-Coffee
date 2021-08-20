@@ -197,7 +197,7 @@ export const fetchEditProduct = (id, data) => {
 
 export const fetchAddProduct = (id, data) => {
   return async (dispatch, getState) => {
-    const { state } =getState()
+    const { state } = getState();
     dispatch({ type: "product/add/fetch/pending" });
 
     try {

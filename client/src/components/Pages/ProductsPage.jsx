@@ -150,7 +150,7 @@ function ProductsPage() {
                     />
                   </TableCell>
                   <TableCell align="right" className={classes.fontTable}>
-                    <Button variant="contained" color="primary" onClick={()=>alert('Не доработал')}>
+                    <Button disabled={true} variant="contained" color="primary" onClick={()=>alert('Нет в наличии')}>
                       Купить
                     </Button>
                   </TableCell>

@@ -1,5 +1,6 @@
 const Category = require("../models/Category.model");
 
+
 module.exports.categoryController = {
   getCategory: async (req, res) => {
     try {

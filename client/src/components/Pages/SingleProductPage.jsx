@@ -48,6 +48,7 @@ function SingleProductPage() {
   const products = useSelector((state) => state.products.items);
   const loading = useSelector((state) => state.products.loading);
   const [open, setOpen] = useState(false);
+
   useEffect(() => {
     dispatch(fetchProductByCategoryId(id));
   }, [dispatch, id]);

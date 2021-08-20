@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import products, { fetchEditProduct } from "../redux/features/products";
+import  { fetchEditProduct } from "../redux/features/products";
 
 function PatchProduct({ setOpen, open }) {
   const dispatch = useDispatch();

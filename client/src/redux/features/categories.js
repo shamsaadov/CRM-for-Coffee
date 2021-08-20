@@ -4,6 +4,7 @@ const initialState = {
   error: null,
 };
 
+
 const categories = (state = initialState, action) => {
   switch (action.type) {
     case "categories/fetch/pending":

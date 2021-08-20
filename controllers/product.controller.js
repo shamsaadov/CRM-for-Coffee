@@ -166,41 +166,6 @@ module.exports.productsController = {
         error: "Неверно указана цена продукта",
       });
     }
-
-    // try {
-    //   const categoryExists = await Category.findById(category);
-    //
-    //   if (!categoryExists) {
-    //     return res.status(400).json({
-    //       error: `Категории с ID ${category} не существует`,
-    //     });
-    //   }
-    // } catch (e) {
-    //   return res.status(400).json({
-    //     error: e.toString(),
-    //   });
-    // }
-    //
-    // try {
-    //   const edited = await Product.findByIdAndUpdate(
-    //     id,
-    //     { name },
-    //     { new: true }
-    //   );
-    //
-    //   if (!edited) {
-    //     return res.status(400).json({
-    //       error: "Не удалось изменить название. Проверь правильность ID",
-    //     });
-    //   }
-    //
-    //   return res.json(edited);
-    // } catch (e) {
-    //   return res.status(400).json({
-    //     error: e.toString(),
-    //   });
-    // }
-
     const product = await Product.findByIdAndUpdate(id, {
       $set: {
         ...req.body,

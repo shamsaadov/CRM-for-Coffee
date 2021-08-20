@@ -10,8 +10,6 @@ const logger = createLogger({
 });
 
 export const store = createStore(
-  combineReducers(
-    { products: productsReducer,
-      categories: categoriesReducer }),
+  combineReducers({ products: productsReducer, categories: categoriesReducer }),
   applyMiddleware(thunk, logger)
 );
