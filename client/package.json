@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://localhost:9000",
+  "proxy": "http://localhost:3010",
   "dependencies": {
     "react-bootstrap": "^2.0.0-beta.4",
     "react-redux": "^7.2.4",

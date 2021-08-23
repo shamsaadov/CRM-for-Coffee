@@ -1,3 +1,4 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
 const morgan = require("morgan");
@@ -16,15 +17,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use(file());
 app.use(morgan("dev"));
 app.use(express.static(path.resolve(__dirname, "public")));
+
+app.use(express.static(path.resolve(__dirname, 'client', 'build')))
+
 app.use(routes);
-// app.get("*", (req, res) => {
-//   res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
 
 mongoose
-  .connect(config.mongoose, {
+  .connect(process.env.MONGO, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true
   })
   .then(() => {
     console.log(chalk.blue("Подключился к монгоДБ"));
@@ -37,10 +42,10 @@ mongoose
     );
   });
 
-app.listen(config.PORT, () => {
+app.listen(process.env.PORT, () => {
   console.log(
     chalk.blue(
-      `Успешное подключение к локальному серверу с портом: ${config.PORT}`
+      `Успешное подключение к локальному серверу с портом: ${process.env.PORT}`
     )
   );
 });
