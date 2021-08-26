@@ -14,4 +14,11 @@ CRM для кофейни
 Весь проект делался в соло
 </p>
 
+<p>
+  Был использован следующий стек:
+  
+ Backend:  <b> MongoDB, ExpressJS, Cors. </b>
+ Frontend:  <b> React, React-Router-Dom, React-Devtools, Logger </b>
+</p>
+
 ![gif](qweee.gif)
