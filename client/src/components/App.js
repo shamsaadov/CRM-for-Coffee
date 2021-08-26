@@ -17,6 +17,7 @@ function App() {
       <Router>
         <Switch>
 
+
           <Route exact path='/'>
             <Header/>
             <Home/>
