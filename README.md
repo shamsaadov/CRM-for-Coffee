@@ -17,8 +17,8 @@ CRM для кофейни
 <p>
   Был использован следующий стек:
   
- Backend:  <b> MongoDB, ExpressJS, Cors. </b>
- Frontend:  <b> React, React-Router-Dom, React-Devtools, Logger </b>
+  <u>Backend</u>:  <b> MongoDB, ExpressJS, Cors. </b>
+  <u>Frontend</u>:  <b> React, React-Router-Dom, React-Devtools, Logger </b>
 </p>
 
 ![gif](qweee.gif)
